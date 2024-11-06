@@ -53,11 +53,15 @@ local cam = nil
 local scaleform
 
 local function closeBinoculars()
+    DoScreenFadeOut(500)
+    while not IsScreenFadedOut() do Wait(1) end
+
     ClearPedTasks(cache.ped)
-    RenderScriptCams(false, true, 500, false, false)
+    RenderScriptCams(false, true, 0, false, false)
     SetScaleformMovieAsNoLongerNeeded(scaleform)
     DestroyCam(cam, false)
     cam = nil
+    DoScreenFadeIn(500)
 end
 
 local keybind = lib.addKeybind({
