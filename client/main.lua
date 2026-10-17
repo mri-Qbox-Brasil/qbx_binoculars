@@ -55,9 +55,10 @@ local scaleform
 local function closeBinoculars()
     DoScreenFadeOut(500)
     while not IsScreenFadedOut() do Wait(1) end
-
+    ClearTimecycleModifier()
+    fov = (MAX_FOV + MIN_FOV) * 0.5
     ClearPedTasks(cache.ped)
-    RenderScriptCams(false, true, 0, false, false)
+    RenderScriptCams(false, false, 0, true, false)
     SetScaleformMovieAsNoLongerNeeded(scaleform)
     DestroyCam(cam, false)
     cam = nil
@@ -75,7 +76,7 @@ local keybind = lib.addKeybind({
     end,
 })
 
-lib.callback.register('qbx_binoculars:client:toggle', function()
+RegisterNetEvent('qbx_binoculars:client:toggle', function()
     if cache.vehicle or IsPedSwimming(cache.ped) or QBX.PlayerData.metadata.isdead or QBX.PlayerData.metadata.ishandcuffed or QBX.PlayerData.metadata.inlaststand then return end
     binoculars = not binoculars
 
